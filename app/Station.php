@@ -13,4 +13,8 @@ class Station extends Model
         'provinci',
         'daop'
     ];
+
+    public function trains() {
+        return $this->hasMany('App\Train');
+    }
 }

@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/station', 'StationController@index');
+Route::get('/train-station', 'TrainController@index');
