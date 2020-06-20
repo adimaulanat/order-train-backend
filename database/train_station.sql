@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jun 2020 pada 04.18
+-- Waktu pembuatan: 19 Jun 2020 pada 04.34
 -- Versi server: 10.4.11-MariaDB
 -- Versi PHP: 7.4.6
 
@@ -56,7 +56,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2020_06_18_002716_create_stations_table', 1);
+(4, '2020_06_18_002716_create_stations_table', 1),
+(5, '2020_06_19_013141_create_trains_table', 2);
 
 -- --------------------------------------------------------
 
@@ -104,6 +105,47 @@ INSERT INTO `stations` (`id`, `code`, `name`, `city`, `provinci`, `daop`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `trains`
+--
+
+CREATE TABLE `trains` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `departure_station_id` int(11) NOT NULL,
+  `arrival_station_id` int(11) NOT NULL,
+  `departure_time` time NOT NULL,
+  `arrival_time` time NOT NULL,
+  `duration` time NOT NULL,
+  `price` double(8,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `trains`
+--
+
+INSERT INTO `trains` (`id`, `name`, `departure_station_id`, `arrival_station_id`, `departure_time`, `arrival_time`, `duration`, `price`, `created_at`, `updated_at`) VALUES
+(1, 'Argo Parahyangan Excellence', 1, 3, '13:30:00', '16:40:00', '03:10:00', 250000.00, NULL, NULL),
+(2, 'Argo Parahyangan Excellence', 1, 3, '15:00:00', '18:20:00', '03:20:00', 275000.00, NULL, NULL),
+(3, 'Argo Parahyangan Excellence', 3, 1, '13:30:00', '16:40:00', '03:10:00', 250000.00, NULL, NULL),
+(4, 'Argo Parahyangan Excellence', 3, 1, '15:00:00', '18:20:00', '03:20:00', 275000.00, NULL, NULL),
+(5, 'Mutiara Selatan', 3, 1, '20:45:00', '23:40:00', '02:55:00', 250000.00, NULL, NULL),
+(6, 'Mutiara Selatan', 3, 1, '21:05:00', '23:55:00', '02:50:00', 225000.00, NULL, NULL),
+(7, 'Mutiara Selatan', 1, 3, '20:45:00', '23:40:00', '02:55:00', 250000.00, NULL, NULL),
+(8, 'Mutiara Selatan', 1, 3, '21:05:00', '23:55:00', '02:50:00', 225000.00, NULL, NULL),
+(9, 'Mutiara Selatan', 10, 9, '20:45:00', '23:40:00', '02:55:00', 250000.00, NULL, NULL),
+(10, 'Mutiara Selatan', 10, 9, '21:05:00', '23:55:00', '02:50:00', 225000.00, NULL, NULL),
+(11, 'Mutiara Selatan', 9, 10, '20:45:00', '23:40:00', '02:55:00', 250000.00, NULL, NULL),
+(12, 'Mutiara Selatan', 9, 10, '21:05:00', '23:55:00', '02:50:00', 225000.00, NULL, NULL),
+(13, 'Mutiara Selatan', 8, 4, '20:45:00', '23:40:00', '02:55:00', 250000.00, NULL, NULL),
+(14, 'Mutiara Selatan', 8, 4, '21:05:00', '23:55:00', '02:50:00', 225000.00, NULL, NULL),
+(15, 'Mutiara Selatan', 4, 8, '20:45:00', '23:40:00', '02:55:00', 250000.00, NULL, NULL),
+(16, 'Mutiara Selatan', 4, 8, '21:05:00', '23:55:00', '02:50:00', 225000.00, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `users`
 --
 
@@ -147,6 +189,14 @@ ALTER TABLE `stations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `trains`
+--
+ALTER TABLE `trains`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `departure_train_station` (`departure_station_id`),
+  ADD KEY `arrival_train_station` (`arrival_station_id`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -167,7 +217,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `stations`
@@ -176,10 +226,27 @@ ALTER TABLE `stations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT untuk tabel `trains`
+--
+ALTER TABLE `trains`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `trains`
+--
+ALTER TABLE `trains`
+  ADD CONSTRAINT `arrival_train_station` FOREIGN KEY (`arrival_station_id`) REFERENCES `stations` (`id`),
+  ADD CONSTRAINT `departure_train_station` FOREIGN KEY (`departure_station_id`) REFERENCES `stations` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
